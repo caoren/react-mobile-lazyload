@@ -1,6 +1,6 @@
 # react-mobile-lazyload
 
-> A React components named Lazyload, used in the mobile page.
+> A React components named Lazyload, used in the mobile webpage.
 
 ## Usage
 ```js
@@ -18,7 +18,7 @@ Default value: `<div>`
 
 Note: placehoder element.
 
-## partial
+#### partial
 Type: `React.bool`
 
 Default value: `false`
