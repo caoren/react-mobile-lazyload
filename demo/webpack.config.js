@@ -1,22 +1,19 @@
 var path = require('path');
-module.exports = {
+var webpack = require('webpack');
+let isDeploy = process.env.NODE_ENV === 'production';
+let config = {
     entry : {
-        test : [
-            'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://localhost:7909',
-            path.resolve(__dirname,'test.jsx')
-        ]
+        test : isDeploy ? path.resolve(__dirname,'test.jsx') : [
+                'webpack/hot/dev-server',
+                'webpack-dev-server/client?http://localhost:7909',
+                path.resolve(__dirname,'test.jsx')
+            ]
     },
     output : {
-        path : path.resolve(__dirname, '/'),
+        path : path.resolve(__dirname, '../demo'),
         filename : '[name].js'
     },
     module : {
-        perLoaders : [{
-            test: /\.jsx?$/,
-            include: __dirname,
-            loader: 'jshint-loader'
-        }],
         loaders : [{
             test : /\.jsx?$/,
             exclude: /(node_modules|bower_components)/,
@@ -26,8 +23,26 @@ module.exports = {
             }
         }]
     },
-    devtool: 'eval-source-map',
+    devtool: isDeploy ? false : 'eval-source-map',
     jshint : {
         "esnext" : true
     }
-};
+}
+if(isDeploy){
+    config.plugins = [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+           compress: {
+               warnings: false
+           }
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurenceOrderPlugin()
+    ];
+}
+
+module.exports = config;
