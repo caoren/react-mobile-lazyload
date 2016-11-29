@@ -8,6 +8,9 @@
     <img src=".." />
 </LazyLoad>
 ```
+## Preview
+
+[点击查看demo](https://caoren.github.io/react-mobile-lazyload/demo/)
 
 ## Options
 
