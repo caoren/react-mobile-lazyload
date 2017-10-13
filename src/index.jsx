@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 
-const root = document.documentElement;
+const isWindow = typeof window != 'undefined';
+const root = isWindow ? document.documentElement : {};
 function getCurrentTime(){
     return Date.now ? Date.now() : new Date().getTime();
 }
@@ -130,7 +131,7 @@ function fireLazy(){
 }
 //ios的scroll是在滚动停止后触发,不用处理
 var handleScroll = fireLazy;
-var isIos = window.navigator.userAgent.match(/(iPhone|iPad|iPod)/) != null;
+var isIos = isWindow ? window.navigator.userAgent.match(/(iPhone|iPad|iPod)/) != null : true;
 if(!isIos){
     handleScroll = throttle(fireLazy,300);
 }
